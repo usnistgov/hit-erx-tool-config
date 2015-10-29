@@ -13,3 +13,7 @@ Desktop.ini
 .metadata
 .classpath
 .settings/
+
+#InteliJ
+.idea
+*.iml

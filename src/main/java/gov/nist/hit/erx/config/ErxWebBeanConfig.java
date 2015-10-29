@@ -1,6 +1,7 @@
 package gov.nist.hit.erx.config;
 
 
+import gov.nist.hit.core.service.CachedRepository;
 import gov.nist.hit.core.service.edi.EDIMessageParser;
 import gov.nist.hit.core.service.edi.EDIMessageParserImpl;
 import gov.nist.hit.core.service.edi.EDIMessageValidator;
@@ -29,19 +30,25 @@ public class ErxWebBeanConfig {
 
 	static final Logger logger = LoggerFactory.getLogger(ErxWebBeanConfig.class);
 
+	@Bean
+	public CachedRepository cachedRepository() {
+		logger.info("bean for CachedRepository");
+		return new CachedRepository();
+	}
+
 	// ERX specific  
 
 	@Bean
 	public ResourcebundleLoader resourcebundleLoader() {
-		return new XMLResourcebundleLoaderImpl();
+		return new ERXResourcebundleLoaderImpl();
 	}
 
 	// EDI specific
 
-	//@Bean
-	//public EDIResourcebundleLoaderImpl ediResourcebundleLoaderImpl() {
-	//	return new EDIResourcebundleLoaderImpl();
-	//}
+	@Bean
+	public EDIResourcebundleLoaderImpl ediResourcebundleLoaderImpl() {
+		return new EDIResourcebundleLoaderImpl();
+	}
 
 	@Bean
 	public EDIValidationReportGenerator  ediValidationReportGenerator() {
@@ -60,10 +67,10 @@ public class ErxWebBeanConfig {
 
 	// XML specific
 
-	//@Bean
-	//public XMLResourcebundleLoaderImpl xmlResourcebundleLoaderImpl() {
-	//	return new XMLResourcebundleLoaderImpl();
-	//}
+	@Bean
+	public XMLResourcebundleLoaderImpl xmlResourcebundleLoaderImpl() {
+		return new XMLResourcebundleLoaderImpl();
+	}
 
 	@Bean
 	public XMLValidationReportGenerator  xmlValidationReportGenerator() {

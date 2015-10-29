@@ -28,6 +28,7 @@ import javax.annotation.PostConstruct;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,12 +47,9 @@ public class ERXResourcebundleLoaderImpl extends ResourcebundleLoader {
   public ERXResourcebundleLoaderImpl() {}
 
   @PostConstruct
-  public void postConstruct(){
-    try{
-      this.load();
-    } catch (Exception e){
-      logger.debug("[ERROR Loading Resource Bundle]",e);
-    }
+  public void load() throws JsonProcessingException, IOException, ProfileParserException {
+    logger.info("loading ERXResourcebundle");
+    super.load();
   }
 
   @Override
@@ -83,13 +81,14 @@ public class ERXResourcebundleLoaderImpl extends ResourcebundleLoader {
   @Override
   public ProfileModel parseProfile(String integrationProfileXml, String conformanceProfileId,
       String constraintsXml, String additionalConstraintsXml) throws ProfileParserException {
-    throw new UnsupportedOperationException();
+    return edirb.parseProfile(integrationProfileXml, conformanceProfileId, constraintsXml,
+            additionalConstraintsXml);
   }
 
   @Override
-  protected VocabularyLibrary vocabLibrary(String content) throws JsonGenerationException,
+  public VocabularyLibrary vocabLibrary(String content) throws JsonGenerationException,
       JsonMappingException, IOException {
-    throw new UnsupportedOperationException();
+    return edirb.vocabLibrary(content);
   }
 
 
