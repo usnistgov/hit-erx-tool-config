@@ -30,11 +30,11 @@ public class ErxWebBeanConfig {
 
 	static final Logger logger = LoggerFactory.getLogger(ErxWebBeanConfig.class);
 
-	@Bean
-	public CachedRepository cachedRepository() {
-		logger.info("bean for CachedRepository");
-		return new CachedRepository();
-	}
+//	@Bean
+//	public CachedRepository cachedRepository() {
+//		logger.info("bean for CachedRepository");
+//		return new CachedRepository();
+//	}
 
 	// ERX specific  
 
