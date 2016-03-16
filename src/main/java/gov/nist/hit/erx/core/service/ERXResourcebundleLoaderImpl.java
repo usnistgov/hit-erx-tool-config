@@ -12,11 +12,8 @@
 
 package gov.nist.hit.erx.core.service;
 
-import gov.nist.hit.core.domain.ProfileModel;
-import gov.nist.hit.core.domain.TestCaseDocument;
-import gov.nist.hit.core.domain.TestContext;
-import gov.nist.hit.core.domain.TestingStage;
-import gov.nist.hit.core.domain.VocabularyLibrary;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import gov.nist.hit.core.domain.*;
 import gov.nist.hit.core.service.ResourcebundleLoader;
 import gov.nist.hit.core.service.edi.EDIResourcebundleLoaderImpl;
 import gov.nist.hit.core.service.exception.ProfileParserException;
@@ -26,10 +23,9 @@ import java.io.IOException;
 
 import javax.annotation.PostConstruct;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.JsonMappingException;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
