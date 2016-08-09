@@ -2,20 +2,8 @@ package gov.nist.hit.erx.config;
 
 
 import gov.nist.hit.core.service.CachedRepository;
-import gov.nist.hit.core.service.edi.EDIMessageParser;
-import gov.nist.hit.core.service.edi.EDIMessageParserImpl;
-import gov.nist.hit.core.service.edi.EDIMessageValidator;
-import gov.nist.hit.core.service.edi.EDIMessageValidatorImpl;
-import gov.nist.hit.core.service.edi.EDIResourcebundleLoaderImpl;
-import gov.nist.hit.core.service.edi.EDIValidationReportGenerator;
-import gov.nist.hit.core.service.edi.EDIValidationReportGeneratorImpl;
-import gov.nist.hit.core.service.xml.XMLMessageParser;
-import gov.nist.hit.core.service.xml.XMLMessageParserImpl;
-import gov.nist.hit.core.service.xml.XMLMessageValidator;
-import gov.nist.hit.core.service.xml.XMLMessageValidatorImpl;
-import gov.nist.hit.core.service.xml.XMLResourcebundleLoaderImpl;
-import gov.nist.hit.core.service.xml.XMLValidationReportGenerator;
-import gov.nist.hit.core.service.xml.XMLValidationReportGeneratorImpl;
+import gov.nist.hit.core.service.edi.*;
+import gov.nist.hit.core.service.xml.*;
 import gov.nist.hit.core.service.ResourcebundleLoader;
 import gov.nist.hit.erx.core.service.ERXResourcebundleLoaderImpl;
 
@@ -51,8 +39,8 @@ public class ErxWebBeanConfig {
 	}
 
 	@Bean
-	public EDIValidationReportGenerator  ediValidationReportGenerator() {
-	  return new EDIValidationReportGeneratorImpl ();
+	public EDIValidationReportConverter ediValidationReportConverter() {
+	  return new EDIValidationReportConverterImpl ();
 	}
 
 	@Bean
@@ -73,9 +61,7 @@ public class ErxWebBeanConfig {
 	}
 
 	@Bean
-	public XMLValidationReportGenerator  xmlValidationReportGenerator() {
-	  return new XMLValidationReportGeneratorImpl ();
-	}
+	public XMLValidationReportConverter xmlValidationReportConverter() { return new XMLValidationReportConverterImpl(); }
 
 	@Bean
 	public XMLMessageValidator xmlMessageValidator() {
