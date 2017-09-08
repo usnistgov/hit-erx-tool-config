@@ -227,11 +227,11 @@ public class ERXResourceLoaderImpl extends ResourceLoader {
   }
 
   @Override
-  public TestContext testContext(String path, JsonNode formatObj, TestingStage stage, TestStep testStep) throws IOException {
-    TestContext res = edirb.testContext(path, formatObj, stage, testStep);
+  public TestContext testContext(String path, JsonNode formatObj, TestingStage stage) throws IOException {
+    TestContext res = edirb.testContext(path, formatObj, stage);
     if (res != null) return res;
 
-    res = xmlrb.testContext(path,formatObj,stage,testStep);
+    res = xmlrb.testContext(path,formatObj,stage);
 
     return res;
   }
