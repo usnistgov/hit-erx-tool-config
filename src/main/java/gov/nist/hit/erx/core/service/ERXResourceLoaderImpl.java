@@ -34,8 +34,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 import org.xhtmlrenderer.resource.XMLResource;
 
+@Component("erxResourceLoaderImpl")
 public class ERXResourceLoaderImpl extends ResourceLoader {
 
   static final Logger logger = LoggerFactory.getLogger(ERXResourceLoaderImpl.class);
@@ -52,12 +54,12 @@ public class ERXResourceLoaderImpl extends ResourceLoader {
     super.load();
   }
 
-  @Override public List<ResourceUploadStatus> addOrReplaceValueSet() throws IOException {
+  @Override public List<ResourceUploadStatus> addOrReplaceValueSet(String rootPath) throws IOException {
     System.out.println("AddOrReplace VS");
 
     List<Resource> resources;
     try {
-      resources = this.getApiResources("*.xml");
+      resources = this.getApiResources("*.xml",rootPath);
       if (resources == null || resources.isEmpty()) {
         ResourceUploadStatus result = new ResourceUploadStatus();
         result.setType(ResourceType.VALUESETLIBRARY);
@@ -105,12 +107,12 @@ public class ERXResourceLoaderImpl extends ResourceLoader {
   }
 
   @Override
-  public List<ResourceUploadStatus> addOrReplaceConstraints() {
+  public List<ResourceUploadStatus> addOrReplaceConstraints(String rootPath) {
     System.out.println("AddOrReplace Constraints");
 
     List<Resource> resources;
     try {
-      resources = this.getApiResources("*.xml");
+      resources = this.getApiResources("*.xml",rootPath);
       if (resources == null || resources.isEmpty()) {
         ResourceUploadStatus result = new ResourceUploadStatus();
         result.setType(ResourceType.CONSTRAINTS);
@@ -159,12 +161,12 @@ public class ERXResourceLoaderImpl extends ResourceLoader {
   }
 
   @Override
-  public List<ResourceUploadStatus> addOrReplaceIntegrationProfile() {
+  public List<ResourceUploadStatus> addOrReplaceIntegrationProfile(String rootPath) {
     System.out.println("AddOrReplace integration profile");
 
     List<Resource> resources;
     try {
-      resources = this.getApiResources("*.xml");
+      resources = this.getApiResources("*.xml",rootPath);
       if (resources == null || resources.isEmpty()) {
         ResourceUploadStatus result = new ResourceUploadStatus();
         result.setType(ResourceType.PROFILE);
@@ -227,11 +229,11 @@ public class ERXResourceLoaderImpl extends ResourceLoader {
   }
 
   @Override
-  public TestContext testContext(String path, JsonNode formatObj, TestingStage stage) throws IOException {
-    TestContext res = edirb.testContext(path, formatObj, stage);
+  public TestContext testContext(String path, JsonNode formatObj, TestingStage stage, String rootPath) throws IOException {
+    TestContext res = edirb.testContext(path, formatObj, stage,rootPath);
     if (res != null) return res;
 
-    res = xmlrb.testContext(path,formatObj,stage);
+    res = xmlrb.testContext(path,formatObj,stage,rootPath);
 
     return res;
   }
