@@ -27,12 +27,10 @@ import gov.nist.hit.core.service.BundleHandler;
 import gov.nist.hit.core.service.ResourceLoader;
 import gov.nist.hit.core.service.exception.ProfileParserException;
 
-@Service
 public class ERXBundleHandlerImpl implements BundleHandler {
 
     @Autowired
-    @Qualifier("erxResourceLoaderImpl")
-    private ResourceLoader resourceLoader;
+    private ERXResourceLoader resourceLoader;
 
     @Override
     public String unzip(byte[] bytes, String path) throws Exception {

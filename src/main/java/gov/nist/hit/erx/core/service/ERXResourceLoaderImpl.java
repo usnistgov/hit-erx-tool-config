@@ -15,10 +15,10 @@ package gov.nist.hit.erx.core.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import gov.nist.hit.core.domain.*;
 import gov.nist.hit.core.service.ResourceLoader;
-import gov.nist.hit.core.service.edi.EDIResourceLoaderImpl;
+import gov.nist.hit.core.service.edi.EDIResourceLoader;
 import gov.nist.hit.core.service.exception.ProfileParserException;
 import gov.nist.hit.core.service.util.FileUtil;
-import gov.nist.hit.core.service.xml.XMLResourceLoaderImpl;
+import gov.nist.hit.core.service.xml.XMLResourceLoader;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,16 +35,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.xhtmlrenderer.resource.XMLResource;
 
-@Component("erxResourceLoaderImpl")
-public class ERXResourceLoaderImpl extends ResourceLoader {
+@Service
+public class ERXResourceLoaderImpl extends ERXResourceLoader {
 
   static final Logger logger = LoggerFactory.getLogger(ERXResourceLoaderImpl.class);
   
-  @Autowired EDIResourceLoaderImpl edirb;
+  @Autowired EDIResourceLoader edirb;
 
-  @Autowired XMLResourceLoaderImpl xmlrb;
+  @Autowired XMLResourceLoader xmlrb;
 
   public ERXResourceLoaderImpl() {}
 

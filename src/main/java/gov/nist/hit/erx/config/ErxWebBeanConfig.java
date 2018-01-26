@@ -1,12 +1,15 @@
 package gov.nist.hit.erx.config;
 
 
+import gov.nist.hit.core.service.BundleHandler;
 import gov.nist.hit.core.service.ResourceLoader;
 import gov.nist.hit.core.service.edi.*;
 import gov.nist.hit.core.service.xml.*;
 import gov.nist.hit.core.service.ResourcebundleLoader;
+import gov.nist.hit.erx.core.service.ERXBundleHandlerImpl;
 import gov.nist.hit.erx.core.service.ERXResourceLoaderImpl;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.slf4j.Logger;
@@ -26,15 +29,18 @@ public class ErxWebBeanConfig {
 
 	// ERX specific  
 
-	@Bean
+	@Bean(name = "resourceLoader")
 	public ResourceLoader resourceLoader() {
 		return new ERXResourceLoaderImpl();
 	}
 
+	@Bean
+	public BundleHandler bundleHandler() { return new ERXBundleHandlerImpl(); }
+
 	// EDI specific
 
-	@Bean
-	public EDIResourceLoaderImpl ediResourceLoaderImpl() {
+	@Bean(name = "ediResourceLoader")
+	public EDIResourceLoader ediResourceLoader() {
 		return new EDIResourceLoaderImpl();
 	}
 
@@ -55,8 +61,8 @@ public class ErxWebBeanConfig {
 
 	// XML specific
 
-	@Bean
-	public XMLResourceLoaderImpl xmlResourceLoaderImpl() {
+	@Bean(name = "xmlResourceLoader")
+	public XMLResourceLoader xmlResourceLoader() {
 		return new XMLResourceLoaderImpl();
 	}
 
