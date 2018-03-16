@@ -152,7 +152,7 @@ public class ERXBundleHandlerImpl implements BundleHandler {
             testCases.add(cfti);
         }
 
-        gtcg.setTestCases(testCases);
+        gtcg.setTestSteps(testCases);
         return save;
     }
 
@@ -203,7 +203,7 @@ public class ERXBundleHandlerImpl implements BundleHandler {
         save.vs = v;
 
         Iterator<JsonNode> testCasesIter = testCasesObj.findValue("testCases").elements();
-        int size = tp.getTestCases().size();
+        int size = tp.getTestSteps().size();
         while (testCasesIter.hasNext()) {
             JsonNode tcO = testCasesIter.next();
             CFTestStep cfti = new CFTestStep();
@@ -243,7 +243,7 @@ public class ERXBundleHandlerImpl implements BundleHandler {
             cfti.setPersistentId(id);
             cfti.setPosition(size + tcO.findValue("position").asInt());
             // ---
-            tp.getTestCases().add(cfti);
+            tp.getTestSteps().add(cfti);
         }
 
         return save;
