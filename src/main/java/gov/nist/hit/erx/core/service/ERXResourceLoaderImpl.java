@@ -13,11 +13,14 @@
 package gov.nist.hit.erx.core.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.nist.hit.core.domain.*;
 import gov.nist.hit.core.service.ResourceLoader;
+import gov.nist.hit.core.service.ResourcebundleLoader;
 import gov.nist.hit.core.service.edi.EDIResourceLoader;
 import gov.nist.hit.core.service.exception.ProfileParserException;
 import gov.nist.hit.core.service.util.FileUtil;
+import gov.nist.hit.core.service.util.ResourcebundleHelper;
 import gov.nist.hit.core.service.xml.XMLResourceLoader;
 
 import java.io.IOException;
@@ -47,17 +50,19 @@ public class ERXResourceLoaderImpl extends ERXResourceLoader {
 
   @Autowired XMLResourceLoader xmlrb;
 
+  public static final String DOMAIN = "erx";
+
   public ERXResourceLoaderImpl() {}
 
   @PostConstruct
-  public void load() throws JsonProcessingException, IOException, ProfileParserException {
+  public void load() throws Exception {
     logger.info("loading ERXResourcebundle");
     super.load();
   }
 
-  @Override public List<ResourceUploadStatus> addOrReplaceValueSet(String rootPath) throws IOException {
+  @Override public List<ResourceUploadStatus> addOrReplaceValueSet(String rootPath, String domain,
+      TestScope scope, String username, boolean preloaded) throws IOException {
     System.out.println("AddOrReplace VS");
-
     List<Resource> resources;
     try {
       resources = this.getApiResources("*.xml",rootPath);
@@ -83,7 +88,7 @@ public class ERXResourceLoaderImpl extends ERXResourceLoader {
       result.setType(ResourceType.VALUESETLIBRARY);
       String content = FileUtil.getContent(resource);
       try {
-        VocabularyLibrary vocabLibrary = vocabLibrary(content);
+        VocabularyLibrary vocabLibrary = vocabLibrary(content, domain, scope, username, preloaded);
         result.setId(vocabLibrary.getSourceId());
         VocabularyLibrary exist = this.getVocabularyLibrary(vocabLibrary.getSourceId());
         if (exist != null) {
@@ -108,7 +113,8 @@ public class ERXResourceLoaderImpl extends ERXResourceLoader {
   }
 
   @Override
-  public List<ResourceUploadStatus> addOrReplaceConstraints(String rootPath) {
+  public List<ResourceUploadStatus> addOrReplaceConstraints(String rootPath, String domain,
+      TestScope scope, String username, boolean preloaded) throws IOException {
     System.out.println("AddOrReplace Constraints");
 
     List<Resource> resources;
@@ -136,7 +142,7 @@ public class ERXResourceLoaderImpl extends ERXResourceLoader {
       result.setType(ResourceType.CONSTRAINTS);
       String content = FileUtil.getContent(resource);
       try {
-        Constraints constraint = constraint(content);
+        Constraints constraint = constraint(content, domain, scope, username, preloaded);
         result.setId(constraint.getSourceId());
         Constraints exist = this.getConstraints(constraint.getSourceId());
         if (exist != null) {
@@ -162,7 +168,8 @@ public class ERXResourceLoaderImpl extends ERXResourceLoader {
   }
 
   @Override
-  public List<ResourceUploadStatus> addOrReplaceIntegrationProfile(String rootPath) {
+  public List<ResourceUploadStatus> addOrReplaceIntegrationProfile(String rootPath, String domain,
+      TestScope scope, String username, boolean preloaded) throws IOException {
     System.out.println("AddOrReplace integration profile");
 
     List<Resource> resources;
@@ -189,7 +196,7 @@ public class ERXResourceLoaderImpl extends ERXResourceLoader {
       result.setType(ResourceType.PROFILE);
       String content = FileUtil.getContent(resource);
       try {
-        IntegrationProfile integrationP = integrationProfile(content);
+        IntegrationProfile integrationP = integrationProfile(content, domain, scope, username, preloaded);
         result.setId(integrationP.getSourceId());
         IntegrationProfile exist = this.integrationProfileRepository
             .findBySourceId(integrationP.getSourceId());
@@ -229,13 +236,13 @@ public class ERXResourceLoaderImpl extends ERXResourceLoader {
     }
   }
 
-  @Override
-  public TestContext testContext(String path, JsonNode formatObj, TestingStage stage, String rootPath) throws IOException {
-    TestContext res = edirb.testContext(path, formatObj, stage,rootPath);
+
+  @Override public TestContext testContext(String location, JsonNode parentOb, TestingStage stage,
+      String rootPath, String domain, TestScope scope, String authorUsername, boolean preloaded)
+      throws Exception {
+    TestContext res = edirb.testContext(location, parentOb, stage, rootPath, domain, scope, authorUsername, preloaded);
     if (res != null) return res;
-
-    res = xmlrb.testContext(path,formatObj,stage,rootPath);
-
+    res = xmlrb.testContext(location, parentOb, stage, rootPath, domain, scope, authorUsername, preloaded);
     return res;
   }
 
@@ -247,10 +254,11 @@ public class ERXResourceLoaderImpl extends ERXResourceLoader {
             additionalConstraintsXml);
   }
 
-  @Override
-  public VocabularyLibrary vocabLibrary(String content) throws JsonGenerationException,
-      JsonMappingException, IOException {
-    return edirb.vocabLibrary(content);
+  @Override public VocabularyLibrary vocabLibrary(String content, String domain, TestScope scope,
+      String authorUsername, boolean preloaded)
+      throws IOException,
+      UnsupportedOperationException {
+    return edirb.vocabLibrary(content, domain, scope, authorUsername, preloaded);
   }
 
 
