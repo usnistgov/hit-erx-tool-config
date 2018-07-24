@@ -12,34 +12,23 @@
 
 package gov.nist.hit.erx.core.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 import gov.nist.hit.core.domain.*;
-import gov.nist.hit.core.service.ResourceLoader;
-import gov.nist.hit.core.service.ResourcebundleLoader;
 import gov.nist.hit.core.service.edi.EDIResourceLoader;
 import gov.nist.hit.core.service.exception.ProfileParserException;
 import gov.nist.hit.core.service.util.FileUtil;
-import gov.nist.hit.core.service.util.ResourcebundleHelper;
 import gov.nist.hit.core.service.xml.XMLResourceLoader;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.xhtmlrenderer.resource.XMLResource;
+
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class ERXResourceLoaderImpl extends ERXResourceLoader {
@@ -261,5 +250,9 @@ public class ERXResourceLoaderImpl extends ERXResourceLoader {
     return edirb.vocabLibrary(content, domain, scope, authorUsername, preloaded);
   }
 
+  @Override protected IntegrationProfile getIntegrationProfile(String sourceId) throws IOException {
+    //Only for EDI
+    throw new UnsupportedOperationException();
+  }
 
 }

@@ -3,9 +3,9 @@ package gov.nist.hit.erx.config;
 
 import gov.nist.hit.core.service.BundleHandler;
 import gov.nist.hit.core.service.ResourceLoader;
+import gov.nist.hit.core.service.ResourcebundleLoader;
 import gov.nist.hit.core.service.edi.*;
 import gov.nist.hit.core.service.xml.*;
-import gov.nist.hit.core.service.ResourcebundleLoader;
 import gov.nist.hit.erx.core.service.ERXBundleHandlerImpl;
 import gov.nist.hit.erx.core.service.ERXResourceLoaderImpl;
 
@@ -31,6 +31,11 @@ public class ErxWebBeanConfig {
 
 	@Bean(name = "resourceLoader")
 	public ResourceLoader resourceLoader() {
+		return new ERXResourceLoaderImpl();
+	}
+
+	@Bean(name = "resourcebundleLoader")
+	public ResourcebundleLoader resourcebundleLoader() {
 		return new ERXResourceLoaderImpl();
 	}
 
