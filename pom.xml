@@ -6,9 +6,9 @@
   <name>hit-erx-tool-config</name>
   <dependencies>
   	<dependency>
-      <!--<artifactId>ncpdp-erx-resource-bundle</artifactId>-->
+      <artifactId>ncpdp-erx-resource-bundle</artifactId>
       <!--<artifactId>VitalRecords-resource-bundle</artifactId>-->
-      <artifactId>hit-erx-resource-bundle</artifactId>
+      <!--<artifactId>hit-erx-resource-bundle</artifactId>-->
       <groupId>gov.nist.hit.erx.resource</groupId>
       <version>1.0.3</version>
   	</dependency>
